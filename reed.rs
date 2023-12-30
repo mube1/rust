@@ -55,7 +55,7 @@ fn reed_solomon_finger_print(a:Data,b:Data,n:usize)->bool{
     let r=a.generate(n^n)%n; 
         // Alice a, generates message
     let mut condition;
-    if a.evaluation(r,n)==b.evaluation(r,n){
+    if a.evaluation(r,n) %n==b.evaluation(r,n)%n{
           println!("Correct");
           condition=true;
     }
