@@ -1,5 +1,5 @@
 //  in progress working on sumcheck protocol
-
+// THIS IS INTENDED FOR FOLLOWING ALONG THE ALGORITHM
 
 #[allow(dead_code)]
 #[allow(unused_variables)]
