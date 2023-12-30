@@ -9,71 +9,74 @@
     // and the verifier only "consults" in the last round, 
     // and (either explicitly or implicitly) the number of variables `v`.
 
-pub struct XVariable{         x1:i32, x2:i32, x3:i32,        }
-
+pub fn polynomial_at_x(x:Vec<i32>)->i32 {  2*(x[0]^3)+(x[1]*x[2])+ (x[1]*x[2])}
 struct Proover { }
-struct Verifier {  p:Proover , round_values: Vec<i32>, }
-
+struct Verifier { p:Proover ,  r: Vec<i32>, }
+ 
 impl Proover{
-    fn s(&self,round:i32,x:i32)->i32{
-        let r:i32 =0;
-        if round==0{
+    // fn s(&self,round:usize,x:i32, r: &[i32])->i32{
+    fn s(&self,round:usize,x:i32,r:Vec<i32>)->i32{
 
-        return polynomial_at_x(get_variable(x,0,1)) +polynomial_at_x(get_variable(x,1,0)) + polynomial_at_x(get_variable(x,0,1)) +polynomial_at_x(get_variable(x,1,0)) ;
-
-        } 
-        else if round==1{            
-            return polynomial_at_x(get_variable(r,x,1)) +polynomial_at_x(get_variable(r,x,0)) ;
-        }
-        else if round == 3{
-            return polynomial_at_x(get_variable(x,0,1)) +polynomial_at_x(get_variable(x,1,0)) ;
-        }
-        else{
-            println!("No method found");
-            return 0;
-        }
+       if round==1{
+           return polynomial_at_x([x,0,1].to_vec()) +
+            polynomial_at_x([x,0,1].to_vec()) +
+             polynomial_at_x([x,1,0].to_vec()) +
+              polynomial_at_x([x,1,1].to_vec());
+           
+       }
+       else if round==2{
+            return polynomial_at_x([r[round-1 ],x,1].to_vec()) + 
+            polynomial_at_x([r[round-1 ],x,1].to_vec());
+       }
+       else if round ==3{
+            return polynomial_at_x([r[round-2 ],r[round-1 ],x].to_vec()) ;
+       }
+       else{
+       
+            return polynomial_at_x([r[round-3 ],r[round-2 ],r[round-1 ]].to_vec()) ;
+       }
+       
     }
 }
 
-impl Verifier{
-   let round_values=self.round_values;
-   fn verify(&self,round:i32, value:i32)->bool{
-        self.p.s(round,0)+self.p.s(round,1) == value
-   }
+pub trait Verfication {
+    fn verify(&self,round:usize)->bool;
 }
 
-fn get_variable(x1:i32,x2:i32,x3:i32)->XVariable{         XVariable{x1,x2,x3}    }
+impl Verfication for Verifier{
+    fn verify(&self,round:usize)->bool{
+        self.p.s(round,0,self.r.clone())+self.p.s(round,1,self.r.clone()) == self.p.s(round-1,self.r[round-1],self.r.clone()) 
+    }
+}
 
-fn sumcheck_protocol(v:Verifier,round:i32)->bool{
-
-    for i in 0..round{
-        println!(" Round {} ", i);
-        if v.verify(i,1) {
-            v.round_values.push(v.p.s(i,0))
-            continue;
-        }
-        else{
-            return false;
-        }
-        
+fn sumcheck_protocol(v:Verifier,round:usize)->bool{
+    let _h:i32=12;
+    
+    for i in 1..(round+1){
+        println!(" Sumcheck round {} ", i);
+                if v.verify(i) {    
+                    println!("Failed at round  {} ", v.p.s(i,0,v.r.clone())+v.p.s(i,1,v.r.clone()));
+                    continue;
+                }
+                else{
+                    println!("Failed at round  {} ",i);
+                    return false;
+                }    
     }
     true
 
 }
 
-
-pub fn polynomial_at_x(x:XVariable)->i32 {
-        2*(x.x1^3)+(x.x1*x.x3)+ (x.x2*x.x3)
-}
-
 fn main() {
-
-        let round:i32= 3;
-        let r: Vec<i32> = Vec::new();
+//   let arr:[i32;3] = [1,2,3];
+//   println!("The array is {:?}", polynomial_at_x(arr));
+//   (&self,round:usize,x:i32,r:Vec<i32>)->i32
+        let round: usize= 3;
 
         let p=Proover{};
-        let v=Verifier{p,round_values:r};
-
+        let v=Verifier{p:p,r:[2,3,6].to_vec()};
+        
+        println!("{} ",v.r[0]);
         if sumcheck_protocol(v,round){
             println!("Accept");
         }
@@ -81,6 +84,7 @@ fn main() {
             println!("Reject");
         }
         
-      
-
+        
+        // v.p.s(round,10 as i32,v.r);
 }
+
