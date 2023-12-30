@@ -6,5 +6,6 @@ Little math adventures in Rust
 - In progress on sumcheck protocol
 - - Current challenges: to implement or not to implement my polynomial parser?
   - https://github.com/philippeitis/rustnomial ?
+- Reed solomon fingerprinting ( for brain strorming)
 
 
