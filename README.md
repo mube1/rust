@@ -5,5 +5,6 @@ Little math adventures in Rust
 - list all relatively primes less than n
 - In progress on sumcheck protocol
 - - Current challenges: to implement or not to implement my polynomial parser?
+  - https://github.com/philippeitis/rustnomial ?
 
 
