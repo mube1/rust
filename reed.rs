@@ -52,7 +52,7 @@ fn reed_solomon_finger_print(a:Data,b:Data,n:usize)->bool{
         // Reed solomon message checking 
 
         // I am not sure about the field F from which I picked an r from
-    let r=a.generate(n^n); 
+    let r=a.generate(n^n)%n; 
         // Alice a, generates message
     let mut condition;
     if a.evaluation(r,n)==b.evaluation(r,n){
