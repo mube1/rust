@@ -50,12 +50,12 @@ impl Eval for Data {
 
 fn reed_solomon_finger_print(a:Data,b:Data,n:usize)->bool{
         // Reed solomon message checking 
-
+        let prime :i32= (2^n)-1 as i32;
         // I am not sure about the field F from which I picked an r from
-    let r=a.generate(n^n)%n; 
+    let r=a.generate(n^n)%prime; 
         // Alice a, generates message
     let mut condition;
-    if a.evaluation(r,n) %n==b.evaluation(r,n)%n{
+    if a.evaluation(r,n) %prime==b.evaluation(r,n)%prime{
           println!("Correct");
           condition=true;
     }
