@@ -1,4 +1,5 @@
-Little math adventures in Rust
+Fun little adventures in math, proof systems, and beyond.
+Just starting out ... 
 :)
 
 - primality test
