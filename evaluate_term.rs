@@ -27,6 +27,8 @@ fn evaluate_term(term:String,_x:Vec<i32>)->i32{
 
 
 fn main(){
-    println!("{}",evaluate_term("x1*x2*x3/1*x1".to_string(),[2,2,1].to_vec()));
+      let args: Vec<String> = env::args().collect();
+  let term :i32 = args[1].parse::<i32>().unwrap();
+    println!("{}",evaluate_term(term.to_string(),[2,2,1].to_vec()));
 }
 
