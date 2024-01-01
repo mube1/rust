@@ -13,7 +13,7 @@ fn evaluate_term(term:String,_x:Vec<i32>)->i32{
         if  ch as i32 >=48 && ch as i32 <=58{          result*=ch as i32-48 ;        }
         else{    
             if ch=='/'{
-                return result/evaluate_term(term.to_string()[counter..term.len()-1].to_string(),_x);
+                return result/evaluate_term(term.to_string()[counter+1..term.len()-1].to_string(),_x);
             }
             if  ch != '*' {cond=true;}
             
