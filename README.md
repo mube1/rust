@@ -11,6 +11,8 @@ Just starting out ...
 - - Challenges so far
   - - to implement or not to implement my polynomial parser? [?](https://github.com/philippeitis/rustnomial)
   - - Ensuring Fn is a field for defining a finite field for the polynomials?
+   
+- Done with the [sumcheck protocol](https://github.com/mube1/sumcheck/blob/main/README.md)
 
 
 
